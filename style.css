@@ -1,0 +1,46 @@
+body {
+    background-color: darkgreen;
+}
+
+.main {
+    width: 960px;
+    margin: auto;
+}
+
+.topbar {
+    color: white;
+    text-align: center;
+}
+
+.topbar p {
+    font-size: 3rem;
+}
+
+.introduction {
+    font-size: 2rem;
+}
+
+.button {
+    width: 8rem;;
+    height: 1.2rem;;
+
+    margin: 0.5rem auto 0.5rem auto;
+    padding: 0.5rem 0rem 0.5rem 0rem;
+
+    color: white;
+    font-size: 1.3rem;
+
+    cursor: default;
+}
+
+.red {
+    background-color: red;
+}
+
+.red:hover {
+    background-color: orange;
+}
+
+.red:active {
+    background-color: red;
+}
