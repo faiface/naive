@@ -26,16 +26,22 @@ body {
 }
 
 .button {
-    width: 8rem;;
-    height: 2.2rem;;
+    width: 8rem;
+    height: 2.2rem;
 
     margin: 0.5rem auto 0.5rem auto;
     line-height: 2.2rem;
+    text-align: center;
 
     color: white;
     font-size: 1.3rem;
 
     cursor: default;
+}
+
+.square-button {
+    width: 2.2rem;
+    height: 2.2rem;
 }
 
 .red-button {
@@ -68,6 +74,7 @@ body {
 }
 
 .thought-box {
+    height: 2.0rem;
     margin: 3rem auto 3rem auto;
 }
 
@@ -76,7 +83,7 @@ body {
 
     color: white;
     font-family: times;
-    font-size: 1.7rem;
+    font-size: 1.9rem;
     text-align: center;
 
     border: 2px solid darkgrey;
@@ -89,7 +96,7 @@ body {
 
     color: white;
     font-family: times;
-    font-size: 1.7rem;
+    font-size: 1.9rem;
     text-align: center;
 }
 
