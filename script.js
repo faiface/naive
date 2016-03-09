@@ -15,50 +15,86 @@ function wordClick() {
     //TODO
 }
 
+function sentenceToWords(sentence) {
+    var words = sentence.split(' ');
+    var filtered_words = [];
+    words.forEach(function(word) {
+        if (word.match(/[a-zA-Z]/i)) {
+            filtered_words.push(word);
+        }
+    })
+    return filtered_words
+}
+
+function wordsToSentence(words) {
+    return words.join(' ');
+}
+
+function showInputBox($thoughtBox) {
+    var words = [];
+    $thoughtBox.children('.thought-words-box').children('.thought-words').children('span').each(function(index) {
+        words.push($(this).html());
+    });
+    var sentence = wordsToSentence(words);
+
+    $thoughtBox.children('.thought-input-box').children('.thought-input').val(sentence);
+    $thoughtBox.children('.thought-words-box').hide();
+    $thoughtBox.children('.thought-input-box').show();
+    $thoughtBox.children('.thought-input-box').children('.thought-input').focus();
+}
+
+function showWordsBox($thoughtBox) {
+    var sentence = $thoughtBox.children('.thought-input-box').children('.thought-input').val();
+    var words = sentenceToWords(sentence);
+
+    if (words.length == 0) return;
+
+    var $thoughtWords = $thoughtBox.children('.thought-words-box').children('.thought-words');
+    $thoughtWords.html('');
+    words.forEach(function(word) {
+        var $wordSpan = $('<span>');
+        $wordSpan.addClass('thought-word');
+        $wordSpan.html(word);
+        $wordSpan.click(wordClick);
+        $thoughtWords.append($wordSpan);
+    });
+
+    $thoughtBox.children('.thought-input-box').hide();
+    $thoughtBox.children('.thought-words-box').show();
+}
+
 function toggleThoughtBox($thoughtBox) {
     if ($thoughtBox.children('.thought-words-box').is(':visible')) {
-        $thoughtBox.children('.thought-words-box').hide();
-        $thoughtBox.children('.thought-input-box').show();
-        $thoughtBox.children('.thought-input-box').children('.thought-input').focus();
+        showInputBox($thoughtBox);
     } else {
-        $thoughtBox.children('.thought-input-box').hide();
-        $thoughtBox.children('.thought-words-box').show();
+        showWordsBox($thoughtBox);
     }
 }
 
 function editButtonClick() {
-    $thoughtBox = $(this).parent().parent();
-    toggleThoughtBox($thoughtBox);
+    var $thoughtBox = $(this).parent().parent();
+    showInputBox($thoughtBox);
 }
 
 function thoughtInputKeydown(key) {
     if (key.which == 13) {  // enter key
-        text = $(this).val();
-        words = text.split(' ');
-
-        $thoughtBox = $(this).parent().parent();
-        $thoughtWords = $thoughtBox.children('.thought-words-box');
-
-        $wordList = $thoughtWords.children('.thought-words');
-        $wordList.html('');
-        words.forEach(function(word) {
-            $wordSpan = $('<span>');
-            $wordSpan.addClass('thought-word');
-            $wordSpan.html(word);
-            $wordSpan.click(wordClick);
-            $wordList.append($wordSpan);
-        })
-
-        toggleThoughtBox($thoughtBox);
+        var $thoughtBox = $(this).parent().parent();
+        showWordsBox($thoughtBox);
     }
 }
 
+function thoughtInputOnblur() {
+    var $thoughtBox = $(this).parent().parent();
+    showWordsBox($thoughtBox);
+}
+
 function newThoughtBox(parents) {
-    $thoughtBox = $(thoughtBoxTemplate);
+    var $thoughtBox = $(thoughtBoxTemplate);
     $thoughtBox.attr('parents', parents);
 
-    $thoughtInput = $thoughtBox.children('.thought-input-box').children('.thought-input');
+    var $thoughtInput = $thoughtBox.children('.thought-input-box').children('.thought-input');
     $thoughtInput.keydown(thoughtInputKeydown);
+    $thoughtInput.blur(thoughtInputOnblur);
 
     if (parents.length > 0) {
         $thoughtInput.attr('placeholder', 'What is ' + parents[parents.length - 1] + '?');
@@ -66,7 +102,7 @@ function newThoughtBox(parents) {
         $thoughtInput.attr('placeholder', 'Clear your mind...');
     }
 
-    $thoughtWordsBox = $thoughtBox.children('.thought-words-box');
+    var $thoughtWordsBox = $thoughtBox.children('.thought-words-box');
     $thoughtWordsBox.children('.edit-button').click(editButtonClick);
 
     $thoughtWordsBox.hide();
