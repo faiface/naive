@@ -1,9 +1,16 @@
-var terms = new Array();
+var thoughtBoxTemplate =
+'<div class="container thought-box">\n' +
+'   <div class="container thought-input-box">\n' +
+'       <input type="text" class="thought-input"/>\n' +
+'   </div>\n' +
+'   <div class="container thought-words-box">\n' +
+'       <div class="container thought-words">\n' +
+'       </div>\n' +
+'   </div>\n' +
+'</div>\n'
 
 function wordClick() {
-    if ($(this).hasClass('leaf-selected')) return;
-
-    $thoughtBox = $(this).parent().parent();
+    //TODO
 }
 
 function thoughtInputKeydown(key) {
@@ -11,10 +18,10 @@ function thoughtInputKeydown(key) {
         text = $(this).val();
         words = text.split(' ');
 
-        $thoughtBox = $(this).parent();
-        $thoughtWords = $thoughtBox.children('.thought-words');
+        $thoughtBox = $(this).parent().parent();
+        $thoughtWords = $thoughtBox.children('.thought-words-box');
 
-        $wordList = $thoughtWords.children('.word-list');
+        $wordList = $thoughtWords.children('.thought-words');
         $wordList.html('');
         words.forEach(function(word) {
             $wordSpan = $('<span>');
@@ -30,29 +37,19 @@ function thoughtInputKeydown(key) {
 }
 
 function addEmptyThoughtBox(parents) {
-    $thoughtBox = $('<div>');
-    $thoughtBox.addClass('container thought-box');
-    $thoughtBox.attr('parents', parents);
+    $thoughtBox = $(thoughtBoxTemplate);
+    $thoughtBox.attr('parents', parents)
 
-    $thoughtInput = $('<input type="text">');
+    $thoughtInput = $thoughtBox.children('.thought-input-box').children('.thought-input');
+    $thoughtInput.keydown(thoughtInputKeydown);
+
     if (parents.length > 0) {
         $thoughtInput.attr('placeholder', 'What is ' + parents[parents.length - 1] + '?');
     } else {
         $thoughtInput.attr('placeholder', 'Clear your mind...');
     }
-    $thoughtInput.addClass('thought-input');
-    $thoughtInput.keydown(thoughtInputKeydown);
-    $thoughtBox.append($thoughtInput);
 
-    $thoughtWords = $('<div>');
-
-    $wordList = $('<div>');
-    $wordList.addClass('word-list');
-    $thoughtWords.append($wordList);
-
-    $thoughtWords.addClass('thought-words');
-    $thoughtWords.hide();
-    $thoughtBox.append($thoughtWords);
+    $thoughtBox.children('.thought-words-box').hide();
 
     $('.thoughts').append($thoughtBox);
 }
