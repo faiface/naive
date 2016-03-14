@@ -74,7 +74,6 @@ body {
 }
 
 .thought-box {
-    height: 2.0rem;
     margin: 3rem auto 3rem auto;
 }
 
@@ -110,4 +109,8 @@ body {
 .thought-word:hover {
     border: 0.3rem solid orange;
     background-color: orange;
+}
+
+.selected {
+    background-color: purple;
 }
