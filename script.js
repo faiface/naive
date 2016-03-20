@@ -14,7 +14,7 @@ var thoughtBoxTemplate =
 var wordTree = {}
 var paths = {};
 var index = 0;
-var activePath = []
+var activePath = [];
 
 function getNode(tree, path) {
     if (tree === undefined) return undefined;
@@ -24,10 +24,24 @@ function getNode(tree, path) {
 
 function deleteNode(node) {
     if (node === undefined) return;
+
     for (var child in node) {
+        if (child == '@') continue;
+        deleteNode(node[child]);
         delete node[child];
     }
-    delete node;
+
+    if (node['@'] !== undefined) {
+        $thoughtBox = node['@'];
+        if ($thoughtBox.is(':visible')) {
+            $thoughtBox.slideUp();
+        }
+
+        $thoughtBox.find('.thought-input').val('');
+        showWordsBox($thoughtBox);
+
+        delete node['@'];
+    }
 }
 
 function lightUpPath(path) {
@@ -54,7 +68,11 @@ function selectPath(path) {
     var promise;
 
     for (var i = matchesUntil; i < activePath.length; i++) {
+        var node = getNode(wordTree, activePath.slice(0, i + 1));
+        if (node === undefined) continue;
+
         var $thoughtBox = getNode(wordTree, activePath.slice(0, i + 1))['@'];
+        if ($thoughtBox === undefined) continue;
 
         $thoughtBox.slideUp('fast');
         if (i == activePath.length - 1) {
@@ -82,6 +100,8 @@ function selectPath(path) {
 }
 
 function wordClick() {
+    if ($(this).hasClass('selected')) return;
+
     $thoughtBox = $(this).parent().parent().parent();
     var path = paths[$thoughtBox.data('index')].slice();
     path.push($(this).html());
@@ -121,18 +141,16 @@ function showWordsBox($thoughtBox) {
     var path = paths[$thoughtBox.data('index')];
     var node = getNode(wordTree, path);
 
-    selectPath(path);
-
-    for (var word in node) {
-        if (word != '@') {
-            deleteNode(node[word]);
-        }
-    }
-
     var sentence = $thoughtBox.children('.thought-input-box').children('.thought-input').val();
     var words = sentenceToWords(sentence);
 
     if (words.length == 0) return;
+
+    for (var word in node) {
+        if (word != '@' && ($.inArray(word, words) == -1)) {
+            deleteNode(node[word]);
+        }
+    }
 
     var $thoughtWords = $thoughtBox.children('.thought-words-box').children('.thought-words');
     $thoughtWords.html('');
@@ -144,11 +162,24 @@ function showWordsBox($thoughtBox) {
         $wordSpan.click(wordClick);
         $thoughtWords.append($wordSpan);
 
-        node[word] = {};
+        if (node[word] === undefined) {
+            node[word] = {};
+        }
     });
 
     $thoughtBox.children('.thought-input-box').hide();
     $thoughtBox.children('.thought-words-box').show();
+
+    var newPath = []
+    var node = wordTree;
+    for (var i = 0; i < activePath.length; i++) {
+        if (node[activePath[i]] === undefined) break;
+
+        newPath.push(activePath[i]);
+        node = node[activePath[i]];
+    }
+
+    selectPath(newPath);
 }
 
 function toggleThoughtBox($thoughtBox) {
@@ -165,7 +196,19 @@ function editButtonClick() {
 }
 
 function deleteButtonClick() {
-    // i do nothing on purpose
+    var $thoughtBox = $(this).parent().parent();
+    var index = $thoughtBox.data('index');
+    var path = paths[index];
+    var node = getNode(wordTree, path);
+    deleteNode(node);
+
+    if (path.length == 0) {
+        var $firstThoughtBox = newThoughtBox([]);
+        $firstThoughtBox.show();
+        $('.thoughts').append($firstThoughtBox);
+    }
+
+    selectPath(path.slice(0, path.length - 1));
 }
 
 function thoughtInputKeydown(key) {
