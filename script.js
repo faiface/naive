@@ -263,7 +263,7 @@ function introToggle() {
 }
 
 function scrollToBottom() {
-    $('body').animate({ scrollTop: $(document).height() }, 'fast');
+    $('html, body').animate({ scrollTop: $(document).height() }, 'fast');
 }
 
 function main() {
