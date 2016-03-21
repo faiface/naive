@@ -213,6 +213,7 @@ function thoughtInputKeydown(key) {
     if (key.which == 13) {  // enter key
         var $thoughtBox = $(this).parent().parent();
         showWordsBox($thoughtBox);
+        $(this).blur();
     }
 }
 
