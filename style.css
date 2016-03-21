@@ -1,6 +1,7 @@
 body {
-    background-color: darkgreen;
+    overflow: hidden;
 
+    background-color: darkgreen;
     font-family: times;
 }
 

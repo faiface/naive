@@ -263,7 +263,13 @@ function introToggle() {
     }
 }
 
+function scrollToBottom() {
+    $('body').animate({ scrollTop: $(document).height() }, 'fast');
+}
+
 function main() {
+    setInterval(scrollToBottom, 50);
+
     $('#intro-toggle').click(introToggle);
 
     var $firstThoughtBox = newThoughtBox([]);
