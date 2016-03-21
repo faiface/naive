@@ -1,7 +1,7 @@
 body {
     overflow: hidden;
 
-    background-color: darkgreen;
+    background-color: #373737;
     font-family: times;
 }
 
@@ -11,7 +11,7 @@ body {
 }
 
 .topbar {
-    color: white;
+    color: #CFCFCF;
     text-align: center;
 }
 
@@ -34,7 +34,7 @@ body {
     line-height: 2.2rem;
     text-align: center;
 
-    color: white;
+    color: #CFCFCF;
     font-size: 1.3rem;
 
     cursor: default;
@@ -46,27 +46,27 @@ body {
 }
 
 .red-button {
-    background-color: red;
+    background-color: #212121;
 }
 
 .red-button:hover {
-    background-color: orange;
+    background-color: #424242;
 }
 
 .red-button:active {
-    background-color: orange;
+    background-color: #212121;
 }
 
 .purple-button {
-    background-color: purple;
+    background-color: #212121;
 }
 
 .purple-button:hover {
-    background-color: magenta;
+    background-color: #424242;
 }
 
 .purple-button:active {
-    background-color: magenta;
+    background-color: #212121;
 }
 
 .thoughts {
@@ -81,7 +81,7 @@ body {
 .thought-box input[type="text"] {
     width: 100%;
 
-    color: white;
+    color: #CFCFCF;
     font-family: times;
     font-size: 1.9rem;
     text-align: center;
@@ -94,7 +94,7 @@ body {
     margin: auto;
     padding: 3px 5px 3px 5px;
 
-    color: white;
+    color: #CFCFCF;
     font-family: times;
     font-size: 1.9rem;
     text-align: center;
@@ -108,10 +108,10 @@ body {
 }
 
 .thought-word:hover {
-    border: 0.3rem solid orange;
-    background-color: orange;
+    border: 0.3rem solid #212121;
+    background-color: #212121;
 }
 
 .selected {
-    background-color: purple;
+    background-color: #212121;
 }

@@ -100,8 +100,6 @@ function selectPath(path) {
 }
 
 function wordClick() {
-    if ($(this).hasClass('selected')) return;
-
     $thoughtBox = $(this).parent().parent().parent();
     var path = paths[$thoughtBox.data('index')].slice();
     path.push($(this).html());
